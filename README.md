@@ -1,12 +1,60 @@
 # dummy-scanner
 
-A demo Go application that counts the total number of files in a specified directory.
+A GitHub Action (and standalone Go application) that scans a directory and counts the total number of files. Use it to automatically scan new pull requests in your repository.
 
-## Requirements
+## GitHub Action Usage
+
+Add the following workflow to your repository at `.github/workflows/dummy-scanner.yml` to scan every new pull request:
+
+```yaml
+name: Dummy Scanner
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Dummy Scanner
+        id: scan
+        uses: erikaheidi/dummy-scanner@main
+
+      - name: Print scan results
+        run: echo "Total files found:" ${{ steps.scan.outputs.total_files }}
+```
+
+### Inputs
+
+| Input       | Description                                          | Required | Default |
+|-------------|------------------------------------------------------|----------|---------|
+| `directory` | Directory to scan (relative to the repository root)  | No       | `.`     |
+
+### Outputs
+
+| Output        | Description                              |
+|---------------|------------------------------------------|
+| `total_files` | Total number of files found by the scanner |
+
+### Scanning a specific directory
+
+```yaml
+- name: Run Dummy Scanner
+  id: scan
+  uses: erikaheidi/dummy-scanner@main
+  with:
+    directory: src
+```
+
+## Standalone CLI Usage
+
+### Requirements
 
 - [Go](https://golang.org/dl/) 1.18 or later
-
-## Usage
 
 Run directly with `go run`:
 
