@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -21,9 +22,12 @@ func countFiles(dir string) (int, error) {
 }
 
 func main() {
+	silent := flag.Bool("s", false, "silent mode: print only the total number of files")
+	flag.Parse()
+
 	dir := "."
-	if len(os.Args) > 1 {
-		dir = os.Args[1]
+	if flag.NArg() > 0 {
+		dir = flag.Arg(0)
 	}
 
 	count, err := countFiles(dir)
@@ -32,5 +36,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Total files in %q: %d\n", dir, count)
+	if *silent {
+		fmt.Println(count)
+	} else {
+		fmt.Printf("Total files in %q: %d\n", dir, count)
+	}
 }
