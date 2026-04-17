@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "digest": "sha256:8bee1901f1e530bfb4a7850aa7a479d17ae3a18beb6e09064ed54cfd245b7191",
+  "image_ref": "golang:1.24-alpine",
+  "cached_at": "2026-04-10T16:38:55.563848282+02:00",
+  "config": {
+    "env": [
+      "PATH=/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "GOLANG_VERSION=1.24.13",
+      "GOTOOLCHAIN=local",
+      "GOPATH=/go"
+    ],
+    "cmd": [
+      "/bin/sh"
+    ],
+    "workdir": "/go"
+  }
+}

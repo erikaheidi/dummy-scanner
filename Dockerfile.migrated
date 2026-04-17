@@ -1,16 +1,15 @@
-FROM golang:1.24-alpine AS builder
+FROM cgr.dev/45a0c61ea6fd977f050c5fb9ac06a69eed764595/go:1.24-dev AS builder
 
 WORKDIR /app
 COPY go.mod ./
 COPY main.go ./
 RUN go build -o /dummy-scanner .
 
-FROM alpine:3.21
-
-RUN apk add --no-cache curl jq
+FROM cgr.dev/chainguard/wolfi-base
 
 COPY --from=builder /dummy-scanner /dummy-scanner
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
