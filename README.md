@@ -30,9 +30,13 @@ jobs:
 
 ### Inputs
 
-| Input       | Description                                          | Required | Default |
-|-------------|------------------------------------------------------|----------|---------|
-| `directory` | Directory to scan (relative to the repository root)  | No       | `.`     |
+| Input          | Description                                                        | Required | Default  |
+|----------------|--------------------------------------------------------------------|----------|----------|
+| `directory`    | Directory to scan (relative to the repository root)               | No       | `.`      |
+| `post_comment` | Post a PR comment with the file count comparison                  | No       | `false`  |
+| `base_count`   | File count from the base branch scan (used when `post_comment` is `true`) | No | `''` |
+| `github_token` | GitHub token for posting PR comments                              | No       | `''`     |
+| `pr_number`    | Pull request number to comment on                                 | No       | `''`     |
 
 ### Outputs
 
@@ -48,6 +52,65 @@ jobs:
   uses: erikaheidi/dummy-scanner@main
   with:
     directory: src
+```
+
+### Comparing base and PR branches with an automatic comment
+
+Run the action twice — once on the base branch, once on the PR branch — and pass `post_comment: 'true'` on the second run to have the action post a comparison table directly to the PR:
+
+```yaml
+name: Dummy Scanner
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Run Dummy Scanner on base branch
+        id: scan_base
+        uses: erikaheidi/dummy-scanner@main
+        with:
+          directory: base
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: head
+
+      - name: Run Dummy Scanner on PR branch
+        uses: erikaheidi/dummy-scanner@main
+        with:
+          directory: head
+          post_comment: 'true'
+          base_count: ${{ steps.scan_base.outputs.total_files }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_number: ${{ github.event.pull_request.number }}
+```
+
+The action will post a comment like:
+
+```
+## Dummy Scanner Results
+
+| Branch | Total Files |
+|--------|-------------|
+| Base (`main`) | 42 |
+| PR (`my-feature`) | 45 |
+
+📈 **+3 files added**
 ```
 
 ## Standalone CLI Usage

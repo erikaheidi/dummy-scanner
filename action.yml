@@ -5,6 +5,22 @@ inputs:
     description: 'Directory to scan (relative to the repository root)'
     required: false
     default: '.'
+  post_comment:
+    description: 'Post a PR comment with the scan comparison results'
+    required: false
+    default: 'false'
+  base_count:
+    description: 'File count from the base branch scan (required when post_comment is true)'
+    required: false
+    default: ''
+  github_token:
+    description: 'GitHub token for posting PR comments'
+    required: false
+    default: ''
+  pr_number:
+    description: 'Pull request number to comment on'
+    required: false
+    default: ''
 outputs:
   total_files:
     description: 'Total number of files found by the scanner'

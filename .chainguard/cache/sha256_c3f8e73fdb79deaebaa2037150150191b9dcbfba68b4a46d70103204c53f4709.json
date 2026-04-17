@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "digest": "sha256:c3f8e73fdb79deaebaa2037150150191b9dcbfba68b4a46d70103204c53f4709",
+  "image_ref": "alpine:3.21",
+  "cached_at": "2026-04-10T16:39:31.065550463+02:00",
+  "config": {
+    "env": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "cmd": [
+      "/bin/sh"
+    ],
+    "workdir": "/"
+  }
+}

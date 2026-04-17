@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "digest": "local:35a6aec1b6fb17b524cc1be11c567779301931057f847055b80c36727650ccbe",
+  "image_ref": "dfc-final-orig-97684ae9:latest",
+  "cached_at": "2026-04-10T16:41:00.249419518+02:00",
+  "config": {
+    "env": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "entrypoint": [
+      "/entrypoint.sh"
+    ],
+    "workdir": "/"
+  }
+}
